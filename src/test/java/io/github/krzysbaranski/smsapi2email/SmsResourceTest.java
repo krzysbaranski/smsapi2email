@@ -11,7 +11,7 @@ import javax.ws.rs.client.WebTarget;
 
 import static org.junit.Assert.assertEquals;
 
-public class MyResourceTest {
+public class SmsResourceTest {
 
     private HttpServer server;
     private WebTarget target;
@@ -42,7 +42,7 @@ public class MyResourceTest {
      */
     @Test
     public void testGetIt() {
-        String responseMsg = target.path("myresource").request().get(String.class);
-        assertEquals("Got it!", responseMsg);
+        String responseMsg = target.path("sms.do").request().get(String.class);
+        assertEquals("OK:1234:1:555555555", responseMsg);
     }
 }
