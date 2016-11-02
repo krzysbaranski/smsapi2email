@@ -1,4 +1,4 @@
-package krzysbaranski.github.io;
+package io.github.krzysbaranski.smsapi2email;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
