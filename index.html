@@ -12,7 +12,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">smsapi2email</h1>
-      <h2 class="project-tagline">SMSAPI.pl compatibile service but sending to email instead (for testing purposes in development)</h2>
+      <h2 class="project-tagline">SMSAPI.pl compatibile REST server but sending to email instead</h2>
       <a href="https://github.com/krzysbaranski/smsapi2email" class="btn">View on GitHub</a>
       <a href="https://github.com/krzysbaranski/smsapi2email/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/krzysbaranski/smsapi2email/tarball/master" class="btn">Download .tar.gz</a>
@@ -23,6 +23,30 @@
 <a id="sms-api-2-email" class="anchor" href="#sms-api-2-email" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SMS-API 2 EMAIL</h3>
 
 <p>Smsapi.pl compatible email sender (for testing environments)</p>
+
+<p>API compatible with smsapi.pl
+that can be used in testing environments with tools like <code>MailHog</code></p>
+
+<p>Application send messages to email: <code>to@domain</code> instead of SMS
+where<code>to</code> is query param in REST
+and <code>domain</code> is environment variable <code>DOMAIN</code></p>
+
+<p>service: <code>http://HOST:PORT/sms.do</code></p>
+
+<p><strong>run</strong></p>
+
+<pre><code>export DOMAIN="mydomain"
+export PORT="8090"
+export HOSTNAME="localhost"
+mvn exec:java -Dmail.smtp.host=mysmtpserver
+</code></pre>
+
+<p><strong>test</strong></p>
+
+<p><code>mvn clean test -Dmail.smtp.host=mysmtpserver</code></p>
+
+<p><strong>email options</strong>
+<a href="https://docs.oracle.com/javaee/7/api/javax/mail/package-summary.html">https://docs.oracle.com/javaee/7/api/javax/mail/package-summary.html</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/krzysbaranski/smsapi2email">smsapi2email</a> is maintained by <a href="https://github.com/krzysbaranski">krzysbaranski</a>.</span>

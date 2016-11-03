@@ -1,6 +1,6 @@
 {
   "name": "smsapi2email",
-  "tagline": "SMSAPI.pl compatibile service but sending to email instead (for testing purposes in development)",
-  "body": "### SMS-API 2 EMAIL ###\r\nSmsapi.pl compatible email sender (for testing environments)\r\n\r\n",
+  "tagline": "SMSAPI.pl compatibile REST server but sending to email instead",
+  "body": "### SMS-API 2 EMAIL ###\r\nSmsapi.pl compatible email sender (for testing environments)\r\n\r\nAPI compatible with smsapi.pl\r\nthat can be used in testing environments with tools like `MailHog`\r\n\r\nApplication send messages to email: `to@domain` instead of SMS\r\nwhere`to` is query param in REST\r\nand `domain` is environment variable `DOMAIN`\r\n\r\nservice: `http://HOST:PORT/sms.do`\r\n\r\n**run**\r\n```\r\nexport DOMAIN=\"mydomain\"\r\nexport PORT=\"8090\"\r\nexport HOSTNAME=\"localhost\"\r\nmvn exec:java -Dmail.smtp.host=mysmtpserver\r\n```\r\n\r\n**test**\r\n\r\n`mvn clean test -Dmail.smtp.host=mysmtpserver`\r\n\r\n**email options**\r\n<https://docs.oracle.com/javaee/7/api/javax/mail/package-summary.html>\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
