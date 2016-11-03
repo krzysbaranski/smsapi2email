@@ -5,6 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Root resource (exposed at "sms.do" path)
@@ -20,13 +21,13 @@ public class SmsResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt(@QueryParam("username") String username,
-                        @QueryParam("password") String password,
-                        @QueryParam("from") String from,
-                        @QueryParam("to") String to,
-                        @QueryParam("message") String message,
-                        @QueryParam("format") String format
-                        ) {
-        return "OK:1234:1:"+to;
+    public Response getIt(@QueryParam("username") String username,
+                          @QueryParam("password") String password,
+                          @QueryParam("from") String from,
+                          @QueryParam("to") String to,
+                          @QueryParam("message") String message,
+                          @QueryParam("format") String format
+    ) {
+        return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
     }
 }
