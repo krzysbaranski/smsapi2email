@@ -42,7 +42,13 @@ public class SmsResourceTest {
      */
     @Test
     public void testGetIt() {
-        String responseMsg = target.path("sms.do").request().get(String.class);
-        assertEquals("OK:1234:1:555555555", responseMsg);
+        String responseMsg = target.path("sms.do")
+                .queryParam("username", "uzytkownik")
+                .queryParam("to","48500500500")
+                .queryParam("passowrd", "286755fad04869ca523320acce0dc6a4")
+                .queryParam("from","sender")
+                .queryParam("message", "sms message")
+                .request().get(String.class);
+        assertEquals("OK:1234:1:48500500500", responseMsg);
     }
 }
