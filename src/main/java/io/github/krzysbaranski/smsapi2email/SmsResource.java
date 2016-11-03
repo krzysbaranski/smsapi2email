@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Properties;
+import java.util.Optional;
 
 import static javax.mail.Transport.send;
 
@@ -21,6 +21,8 @@ import static javax.mail.Transport.send;
  */
 @Path("sms.do")
 public class SmsResource {
+
+    private String domain = Optional.ofNullable(System.getenv("DOMAIN")).orElse("localhost");
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -37,20 +39,16 @@ public class SmsResource {
                           @QueryParam("message") String message,
                           @QueryParam("format") String format
     ) {
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "localhost");
-        props.put("mail.smtp.port", 25);
-        props.put("mail.smtp.connectiontimeout", 20);
-        props.put("mail.smtp.timeout", 20);
-
-        Session session = Session.getDefaultInstance(props);
+        /**
+         * system properties: mail.smtp.host
+         */
+        Session session = Session.getDefaultInstance(System.getProperties());
         Message mailMessage = new MimeMessage(session);
         try {
-            mailMessage.addFrom(new Address[]{new InternetAddress(from + "@from.office.local")});
-            mailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("krzysztof.baranski@ziemia.xyz")); //to+"@to.office.local
-            mailMessage.setSubject("SMS " + username);
+            mailMessage.addFrom(new Address[]{new InternetAddress(username + "@" + domain)});
+            mailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to + "@" + domain));
+            mailMessage.setSubject("SMS sent by:\"" + username + "\" from \"" + from + "\" to \"" + to + "\"");
             mailMessage.setText(message);
-
         } catch (MessagingException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -58,11 +56,8 @@ public class SmsResource {
         try {
             send(mailMessage);
         } catch (MessagingException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
             Response.serverError().build();
         }
-
         return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
     }
 }
