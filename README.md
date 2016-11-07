@@ -1,11 +1,14 @@
-**smsapi2email**
+**SMS-API 2 EMAIL**
 
-API compatible with smsapi.pl
-that can be used in testing environments with tools like `MailHog`
+Smsapi.pl compatible email sender (for testing environments)
+
+API compatible with smsapi.pl that can be used in testing environments with tools like `MailHog`
 
 Application send messages to email: `to@domain` instead of SMS
-where`to` is query param in REST
-and `domain` is environment variable `DOMAIN`
+
+where
+- `to` is query param in REST
+- `domain` is environment variable `DOMAIN`
 
 service: `http://HOST:PORT/sms.do`
 
