@@ -10,16 +10,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static javax.mail.Transport.send;
-
 /**
  * Root resource (exposed at "sms.do" path)
  */
 @Path("sms.do")
 public class SmsResource {
 
-    private final MessageGenerator messageGenerator = new MessageGenerator(this);
-
+    private final MessageGenerator messageGenerator = new MailMessageGenerator(Session.getDefaultInstance(System.getProperties()));
+    private final Sender sender = new MailSender();
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.
@@ -38,16 +36,15 @@ public class SmsResource {
         /**
          * system properties: mail.smtp.host
          */
-        Session session = Session.getDefaultInstance(System.getProperties());
         Message mailMessage;
         try {
-            mailMessage = messageGenerator.mailMessage(session, username, from, to, message);
+            mailMessage = messageGenerator.createMessage(username, from, to, message);
         } catch (MessagingException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         try {
-            send(mailMessage);
+            sender.send(mailMessage);
         } catch (MessagingException e) {
             Response.serverError().build();
         }
