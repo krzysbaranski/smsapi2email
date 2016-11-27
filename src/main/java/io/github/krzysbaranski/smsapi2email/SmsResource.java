@@ -1,18 +1,14 @@
 package io.github.krzysbaranski.smsapi2email;
 
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Optional;
 
 import static javax.mail.Transport.send;
 
@@ -22,7 +18,7 @@ import static javax.mail.Transport.send;
 @Path("sms.do")
 public class SmsResource {
 
-    private String domain = Optional.ofNullable(System.getenv("DOMAIN")).orElse("localhost");
+    private final MessageGenerator messageGenerator = new MessageGenerator(this);
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -45,7 +41,7 @@ public class SmsResource {
         Session session = Session.getDefaultInstance(System.getProperties());
         Message mailMessage;
         try {
-            mailMessage = mailMessage(session, username, from, to, message);
+            mailMessage = messageGenerator.mailMessage(session, username, from, to, message);
         } catch (MessagingException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -56,19 +52,5 @@ public class SmsResource {
             Response.serverError().build();
         }
         return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
-    }
-
-    private Message mailMessage(final Session session,
-                             final String username,
-                             final String from,
-                             final String to,
-                             final String message
-    ) throws MessagingException {
-        MimeMessage mail = new MimeMessage(session);
-        mail.addFrom(new Address[]{new InternetAddress(username + "@" + domain)});
-        mail.setRecipient(Message.RecipientType.TO, new InternetAddress(to + "@" + domain));
-        mail.setSubject("SMS sent by:\"" + username + "\" from \"" + from + "\" to \"" + to + "\"");
-        mail.setText(message);
-        return mail;
     }
 }
