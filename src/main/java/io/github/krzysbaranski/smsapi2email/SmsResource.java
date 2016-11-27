@@ -43,12 +43,9 @@ public class SmsResource {
          * system properties: mail.smtp.host
          */
         Session session = Session.getDefaultInstance(System.getProperties());
-        Message mailMessage = new MimeMessage(session);
+        Message mailMessage;
         try {
-            mailMessage.addFrom(new Address[]{new InternetAddress(username + "@" + domain)});
-            mailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to + "@" + domain));
-            mailMessage.setSubject("SMS sent by:\"" + username + "\" from \"" + from + "\" to \"" + to + "\"");
-            mailMessage.setText(message);
+            mailMessage = mailMessage(session, username, from, to, message);
         } catch (MessagingException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -59,5 +56,19 @@ public class SmsResource {
             Response.serverError().build();
         }
         return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
+    }
+
+    private Message mailMessage(final Session session,
+                             final String username,
+                             final String from,
+                             final String to,
+                             final String message
+    ) throws MessagingException {
+        MimeMessage mail = new MimeMessage(session);
+        mail.addFrom(new Address[]{new InternetAddress(username + "@" + domain)});
+        mail.setRecipient(Message.RecipientType.TO, new InternetAddress(to + "@" + domain));
+        mail.setSubject("SMS sent by:\"" + username + "\" from \"" + from + "\" to \"" + to + "\"");
+        mail.setText(message);
+        return mail;
     }
 }
