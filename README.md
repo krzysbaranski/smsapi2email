@@ -14,6 +14,7 @@ service: `http://HOST:PORT/sms.do`
 
 **run**
 ```
+mvn clean package
 export DOMAIN="mydomain"
 export PORT="8090"
 export HOSTNAME="localhost"
