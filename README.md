@@ -12,14 +12,22 @@ where
 
 service: `http://HOST:PORT/sms.do`
 
-**run**
+**compile**
+
+`mvn clean package`
+
+**setup optional environment**
 ```
-mvn clean package
 export DOMAIN="mydomain"
 export PORT="8090"
 export HOSTNAME="localhost"
-mvn exec:java -Dmail.smtp.host=mysmtpserver
 ```
+
+**run**
+
+- `mvn exec:java -Dmail.smtp.host=mysmtpserver`
+
+- `java -jar target/smsapi2email-*.jar -Dmail.smtp.host=mysmtpserver`
 
 **test**
 
