@@ -33,13 +33,23 @@ and <code>domain</code> is environment variable <code>DOMAIN</code></p>
 
 <p>service: <code>http://HOST:PORT/sms.do</code></p>
 
-<p><strong>run</strong></p>
+
+<p><strong>compile</strong></p>
+<pre><code>mvn clean package</code></pre>
+
+<p><strong>runtime configuration (optional)</strong></p>
 
 <pre><code>export DOMAIN="mydomain"
 export PORT="8090"
 export HOSTNAME="localhost"
-mvn exec:java -Dmail.smtp.host=mysmtpserver
 </code></pre>
+
+
+<p><strong>run</strong></p>
+<pre><code>java -jar target/smsapi2email-*.jar -Dmail.smtp.host=mysmtpserver</code></pre>
+
+<p><strong>run (using maven)</strong></p>
+<pre><code>mvn exec:java -Dmail.smtp.host=mysmtpserver</code></pre>
 
 <p><strong>test</strong></p>
 
