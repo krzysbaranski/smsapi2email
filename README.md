@@ -29,6 +29,12 @@ export HOSTNAME="localhost"
 
 - `java -jar target/smsapi2email-*.jar -Dmail.smtp.host=mysmtpserver`
 
+- docker
+```
+docker build -t smsapi2email .
+docker run --rm -d --env DOMAIN=example.com --env SMTP=smtp.example.com -p 8080:8080 smsapi2email
+```
+
 **test**
 
 `mvn clean test -Dmail.smtp.host=mysmtpserver`
