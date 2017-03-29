@@ -27,7 +27,7 @@ export HOSTNAME="localhost"
 
 - `mvn exec:java -Dmail.smtp.host=mysmtpserver`
 
-- `java -jar target/smsapi2email-*.jar -Dmail.smtp.host=mysmtpserver`
+- `java -Dmail.smtp.host=mysmtpserver -Dmail.smtp.port=25 -jar target/smsapi2email-*.jar `
 
 - docker
 ```
