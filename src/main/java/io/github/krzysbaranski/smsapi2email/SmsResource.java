@@ -40,13 +40,15 @@ public class SmsResource {
         try {
             mailMessage = messageGenerator.createMessage(username, from, to, message);
         } catch (MessagingException e) {
+            e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         try {
             sender.send(mailMessage);
         } catch (MessagingException e) {
-            Response.serverError().build();
+            e.printStackTrace();
+            return Response.serverError().build();
         }
         return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
     }
