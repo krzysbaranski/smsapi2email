@@ -7,4 +7,4 @@ ENV DOMAIN localhost
 ENV PORT 8080
 EXPOSE 8080
 
-CMD ["sh", "-c", "echo java -jar /smsapi2email.jar-Dmail.smtp.host=${SMTP}"]
+CMD ["sh", "-c", "java -jar /smsapi2email.jar -Dmail.smtp.host=${SMTP}"]
