@@ -6,7 +6,7 @@
     <groupId>io.github.krzysbaranski</groupId>
     <artifactId>smsapi2email</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <name>smsapi2email</name>
 
     <dependencyManagement>
