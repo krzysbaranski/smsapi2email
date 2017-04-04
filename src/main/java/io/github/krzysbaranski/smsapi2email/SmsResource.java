@@ -48,7 +48,7 @@ public class SmsResource {
             sender.send(mailMessage);
         } catch (MessagingException e) {
             e.printStackTrace();
-            return Response.serverError().build();
+            return Response.ok("ERROR:201", MediaType.TEXT_PLAIN_TYPE).build();
         }
         return Response.ok("OK:1234:1:" + to, MediaType.TEXT_PLAIN_TYPE).build();
     }
