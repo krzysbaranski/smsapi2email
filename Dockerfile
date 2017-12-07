@@ -1,9 +1,9 @@
-FROM maven:3-jdk-8-alpine
-
+FROM maven:3-jdk-8-alpine as builder
 ADD . /build
 RUN cd /build && mvn -DskipTests package
-RUN cp /build/target/*.jar /smsapi2email.jar
-RUN rm -rf /build
+
+FROM openjdk:8-jre-alpine
+COPY --from=builder /build/target/*.jar /smsapi2email.jar
 ENV SMTP_HOST localhost
 ENV SMTP_PORT 25
 ENV DOMAIN localhost
