@@ -1,6 +1,9 @@
 FROM maven:3-jdk-8-alpine as builder
+ADD pom.xml /build/
+WORKDIR /build
+RUN mvn -DskipTests -s /usr/share/maven/ref/settings-docker.xml verify clean --fail-never
 ADD . /build
-RUN cd /build && mvn -DskipTests package
+RUN mvn -DskipTests -s /usr/share/maven/ref/settings-docker.xml package
 
 FROM openjdk:8-jre-alpine
 COPY --from=builder /build/target/*.jar /smsapi2email.jar
