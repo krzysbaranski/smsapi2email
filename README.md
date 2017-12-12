@@ -32,8 +32,19 @@ export HOSTNAME="localhost"
 - docker
 ```
 docker build -t smsapi2email .
-docker run --rm -d --env DOMAIN=example.com --env SMTP=smtp.example.com -p 8080:8080 smsapi2email
+docker run --rm -d --env DOMAIN=example.com --env SMTP_HOST=smtp.example.com --env SMTP_PORT=25 -p 8080:8080 smsapi2email
 ```
+**docker-compose**
+```
+docker-compose up -d
+```
+call smsapi at <http://localhost:8080/sms.do> 
+
+```
+curl 'http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message'
+```
+
+open browser and visit: <http://localhost:8025> to see results
 
 **test**
 
