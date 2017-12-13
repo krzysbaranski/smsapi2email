@@ -4,6 +4,9 @@ language: java
 
 services:
   - docker
- 
+
+script:
+  - mvn package -B -DskipTests
+
 after_success:
   - docker build -t krzysbaranski/smsapi2email .
