@@ -5,5 +5,5 @@ language: java
 services:
   - docker
  
-script:
+after_success:
   - docker build -t krzysbaranski/smsapi2email .
