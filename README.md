@@ -34,7 +34,6 @@ Query parameters:
 curl 'http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message'
 ```
 
-
 **run in docker**
 
 Docker image [krzysbaranski/smsapi2email](https://store.docker.com/community/images/krzysbaranski/smsapi2email "Docker Store")
@@ -44,9 +43,11 @@ docker run --rm -d --env DOMAIN=example.com --env SMTP_HOST=smtp.example.com --e
 ```
 
 **docker-compose**
-docker compose contains both smsapi2email and MailHog
-mailhog: http://localhost:8025
-API endpoint: http://localhost:8080/sms.do
+
+docker compose setup both smsapi2email and MailHog
+
+- mailhog: http://localhost:8025
+- API endpoint: http://localhost:8080/sms.do
 
 ```
 docker-compose up -d
