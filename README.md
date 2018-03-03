@@ -18,16 +18,16 @@ where
 - `to` is query param in REST (this is usually phone number)
 - `domain` is environment variable `DOMAIN` (can be anything when using MailHog)
 
-** API **
+**API**
 
 Endpoint: `http://HOST:PORT/sms.do`
 
 Query parameters:
 
-- `to` phone number for
+- `to` phone number 
 - `message` - content of message 
 
-** Example **
+**Example**
 
 - sending message using cURL
 ```
