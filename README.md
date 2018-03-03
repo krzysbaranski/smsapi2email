@@ -1,36 +1,39 @@
 **SMS-API 2 EMAIL**
 
-Smsapi.pl compatible email sender (for testing environments)
+Drop-in replacement for SMSAPI for testing environments
 
-API compatible with smsapi.pl that can be used in testing environments with tools like `MailHog`
+Features:
 
-Application send messages to email: `to@domain` instead of SMS
+- Send messages to mail address instead of SMS using simple API 
+- Very simple API
+- REST API compatible with popular Smsapi.pl service
+- Easy integration with `MailHog`
+
+How it works:
+
+Application send messages to email address `to@domain` instead of SMS
 
 where
-- `to` is query param in REST
-- `domain` is environment variable `DOMAIN`
 
-service: `http://HOST:PORT/sms.do`
+- `to` is query param in REST (this is usually phone number)
+- `domain` is environment variable `DOMAIN` (can be anything when using MailHog)
 
-**compile**
+** API **
 
-`mvn clean package`
+Endpoint: `http://HOST:PORT/sms.do`
 
-**build docker image**
-`docker build -t smsapi2email .`
+Query parameters:
 
-**setup optional environment**
+- `to` phone number for
+- `message` - content of message 
+
+** Example **
+
+- sending message using cURL
 ```
-export DOMAIN="mydomain"
-export PORT="8090"
-export HOSTNAME="localhost"
+curl 'http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message'
 ```
 
-**run**
-
-- `mvn exec:java -Dmail.smtp.host=mysmtpserver`
-
-- `java -Dmail.smtp.host=mysmtpserver -Dmail.smtp.port=25 -jar target/smsapi2email-*.jar `
 
 **run in docker**
 
@@ -39,17 +42,42 @@ Docker image [krzysbaranski/smsapi2email](https://store.docker.com/community/ima
 ```
 docker run --rm -d --env DOMAIN=example.com --env SMTP_HOST=smtp.example.com --env SMTP_PORT=25 -p 8080:8080 krzysbaranski/smsapi2email
 ```
+
 **docker-compose**
+docker compose contains both smsapi2email and MailHog
+mailhog: http://localhost:8025
+API endpoint: http://localhost:8080/sms.do
+
 ```
 docker-compose up -d
 ```
-call smsapi at <http://localhost:8080/sms.do> 
+
+**run**
+
+- setup environment (optional)
 
 ```
-curl 'http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message'
+export DOMAIN="mydomain"
+export PORT="8090"
+export HOSTNAME="localhost"
 ```
 
-open browser and visit: <http://localhost:8025> to see results
+- run directly from maven
+
+`mvn exec:java -Dmail.smtp.host=mysmtpserver`
+
+- run from jar:
+
+`java -Dmail.smtp.host=mysmtpserver -Dmail.smtp.port=25 -jar target/smsapi2email-*.jar `
+
+
+**compile**
+
+`mvn clean package`
+
+**build docker image**
+
+`docker build -t smsapi2email .`
 
 **test**
 
