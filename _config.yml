@@ -1,0 +1,8 @@
+title: smsapi2email
+description: SMSAPI.pl compatibile REST server but sending to email instead
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
