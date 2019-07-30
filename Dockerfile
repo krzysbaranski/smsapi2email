@@ -1,17 +1,14 @@
-FROM maven:3-jdk-8-alpine as builder
-ADD pom.xml /build/
-WORKDIR /build
-RUN mvn -DskipTests -s /usr/share/maven/ref/settings-docker.xml verify clean --fail-never
-ADD . /build
-RUN mvn -DskipTests -s /usr/share/maven/ref/settings-docker.xml package
+FROM golang as builder
+WORKDIR /go/src/github.com/krzysbaranski/smsapi2email
+COPY . .
+ENV GO111MODULE=on
+RUN go get -d -v ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/smsapi2email .
 
-FROM openjdk:8-jre-alpine
-COPY --from=builder /build/target/*.jar /smsapi2email.jar
-ENV SMTP_HOST localhost
-ENV SMTP_PORT 25
-ENV DOMAIN localhost
-ENV PORT 8080
-
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /go/bin/smsapi2email .
+COPY .env .
 EXPOSE 8080
-
-CMD java -Dmail.smtp.host=${SMTP_HOST} -Dmail.smtp.port=${SMTP_PORT} -jar /smsapi2email.jar
+CMD ["./smsapi2email"]

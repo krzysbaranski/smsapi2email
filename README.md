@@ -1,4 +1,6 @@
-**SMS-API 2 EMAIL**
+# SMS-API 2 EMAIL
+[![Go Report Card](https://goreportcard.com/badge/github.com/krzysbaranski/smsapi2email)](https://goreportcard.com/report/github.com/sotomskir/jira-cli)
+![GitHub](https://img.shields.io/github/license/krzysbaranski/smsapi2email.svg)
 
 Drop-in replacement for SMSAPI for testing environments
 
@@ -63,26 +65,19 @@ export PORT="8090"
 export HOSTNAME="localhost"
 ```
 
-- run directly from maven
+- run directly from go
 
-`mvn exec:java -Dmail.smtp.host=mysmtpserver`
+`go run main.go`
 
-- run from jar:
+- run from binary:
 
-`java -Dmail.smtp.host=mysmtpserver -Dmail.smtp.port=25 -jar target/smsapi2email-*.jar `
+`SMTP_HOST=mysmtpserver SMTP_PORT=25 ./smsapi2email`
 
 
 **compile**
 
-`mvn clean package`
+`go build`
 
 **build docker image**
 
-`docker build -t smsapi2email .`
-
-**test**
-
-`mvn clean test -Dmail.smtp.host=mysmtpserver`
-
-**email options**
-<https://docs.oracle.com/javaee/7/api/javax/mail/package-summary.html>
+`docker build -t krzysbaranski/smsapi2email .`
