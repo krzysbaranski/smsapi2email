@@ -10,4 +10,4 @@ before_script:
   - docker-compose up --build -d
 
 script:
-  - ./test.sh
+  - bash ./test.sh
