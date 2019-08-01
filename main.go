@@ -78,7 +78,7 @@ func sendMessage(username string, from string, to string, message string) (statu
 		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad data format: %s", err))
 	}
 	defer wc.Close()
-	buf := bytes.NewBufferString(fmt.Sprintf("From: %s@%s\r\nSubject: SMS sent by: \"%s\" from \"%s\" to \"%s\"\r\n\r\n%s ", username, domain, username, from, to, message))
+	buf := bytes.NewBufferString(fmt.Sprintf("From: %s@%s\r\nSubject: SMS sent by: \"%s\" from \"%s\" to \"%s\"\r\n\r\n%s", username, domain, username, from, to, message))
 	if _, err = buf.WriteTo(wc); err != nil {
 		return http.StatusInternalServerError, fmt.Errorf(fmt.Sprintf("Error writing message body: %s", err))
 	}

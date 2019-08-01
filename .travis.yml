@@ -1,9 +1,13 @@
 sudo: required
 
-language: java
+before_install:
+  - sudo apt-get install -y jq curl
 
 services:
   - docker
 
+before_script:
+  - docker-compose up --build -d
+
 script:
-  - docker build -t krzysbaranski/smsapi2email .
+  - ./test.sh
