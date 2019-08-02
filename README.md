@@ -1,5 +1,5 @@
 # SMS-API 2 EMAIL
-[![Go Report Card](https://goreportcard.com/badge/github.com/krzysbaranski/smsapi2email)](https://goreportcard.com/report/github.com/sotomskir/jira-cli)
+[![Go Report Card](https://goreportcard.com/badge/github.com/krzysbaranski/smsapi2email)](https://goreportcard.com/report/github.com/krzysbaranski/smsapi2email)
 ![GitHub](https://img.shields.io/github/license/krzysbaranski/smsapi2email.svg)
 
 Drop-in replacement for SMSAPI for testing environments
