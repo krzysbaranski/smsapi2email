@@ -1,4 +1,5 @@
 # SMS-API 2 EMAIL
+[![Build Status](https://travis-ci.org/krzysbaranski/smsapi2email.svg?branch=master)](https://travis-ci.org/krzysbaranski/smsapi2email)
 [![Go Report Card](https://goreportcard.com/badge/github.com/krzysbaranski/smsapi2email)](https://goreportcard.com/report/github.com/krzysbaranski/smsapi2email)
 ![GitHub](https://img.shields.io/github/license/krzysbaranski/smsapi2email.svg)
 
