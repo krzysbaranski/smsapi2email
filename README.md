@@ -25,8 +25,9 @@ where
 
 Endpoint: `http://HOST:PORT/sms.do`
 
-Query parameters:
+Supported query parameters:
 
+- `from` sender name or send type (2way)
 - `to` phone number 
 - `message` - content of message 
 
@@ -34,7 +35,7 @@ Query parameters:
 
 - sending message using cURL
 ```
-curl 'http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message'
+curl 'http://localhost:8080/sms.do?from=MyCompany&to=666777888&message=some_message'
 ```
 
 **run in docker**

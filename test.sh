@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex -o pipefail
 
-RUN=$(curl --silent "http://localhost:8080/sms.do?username=user&from=smsapi&to=666777888&message=some_message")
+RUN=$(curl --silent "http://localhost:8080/sms.do?from=MyCompany&to=666777888&message=some_message")
 RETURN_CODE=$(echo ${RUN} | cut -c1-3)
 if [ "${RETURN_CODE}" != "OK:" ]; then
   echo "Invalid return code \"${RETURN_CODE}\""
