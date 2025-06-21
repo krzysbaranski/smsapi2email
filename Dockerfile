@@ -1,9 +1,9 @@
-FROM golang as builder
+FROM golang:1.21 AS builder
 WORKDIR /go/src/github.com/krzysbaranski/smsapi2email
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
-ENV GO111MODULE=on
-RUN go get -d -v ./...
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/smsapi2email .
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/smsapi2email .
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
