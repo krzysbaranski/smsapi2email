@@ -1,4 +1,4 @@
-FROM golang:1.19 AS builder
+FROM golang:1.23 AS builder
 WORKDIR /go/src/github.com/krzysbaranski/smsapi2email
 COPY go.mod go.sum ./
 RUN go mod download
