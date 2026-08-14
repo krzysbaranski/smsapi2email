@@ -3,11 +3,13 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/joho/godotenv"
 	"log"
 	"net/http"
 	"net/smtp"
 	"os"
+	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -30,10 +32,12 @@ func main() {
 	log.Printf("Loaded configuration: DOMAIN=%s; PORT=%s; SMTP_HOST=%s; SMTP_PORT=%s;", domain, port, smtpHost, smtpPort)
 
 	http.HandleFunc("/sms.do", func(w http.ResponseWriter, r *http.Request) {
-		from := r.URL.Query().Get("from")
-		to := r.URL.Query().Get("to")
-		message := r.URL.Query().Get("message")
+		from := strings.TrimSpace(r.URL.Query().Get("from"))
+		to := strings.TrimSpace(r.URL.Query().Get("to"))
+		message := strings.TrimSpace(r.URL.Query().Get("message"))
 		w.Header().Add("Content-Type", "text/plain")
+
+		log.Printf("Received request: from=%q, to=%q, message=%q", from, to, message)
 
 		if status, err := sendMessage(from, to, message); err != nil {
 			http.Error(w, err.Error(), status)
@@ -66,18 +70,22 @@ func sendMessage(from string, to string, message string) (status int, error erro
 		return http.StatusServiceUnavailable, fmt.Errorf("smtp service unavailable")
 	}
 	defer c.Quit()
-	if err := c.Mail(fmt.Sprintf("%s@%s", from, domain)); err != nil {
-		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad from email address: %s@%s", from, domain))
+	fromAddr := fmt.Sprintf("%s@%s", from, domain)
+	if err := c.Mail(fromAddr); err != nil {
+		log.Printf("Mail() failed for %q: %s", fromAddr, err)
+		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad from email address: %s", fromAddr))
 	}
-	if err := c.Rcpt(fmt.Sprintf("%s@%s", to, domain)); err != nil {
-		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad to email address: %s@%s", to, domain))
+	toAddr := fmt.Sprintf("%s@%s", to, domain)
+	if err := c.Rcpt(toAddr); err != nil {
+		log.Printf("Rcpt() failed for %q: %s", toAddr, err)
+		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad to email address: %s", toAddr))
 	}
 	wc, err := c.Data()
 	if err != nil {
 		return http.StatusBadRequest, fmt.Errorf(fmt.Sprintf("Bad data format: %s", err))
 	}
 	defer wc.Close()
-	buf := bytes.NewBufferString(fmt.Sprintf("From: %s@%s\r\nSubject: SMS sent from \"%s\" to \"%s\"\r\n\r\n%s", from, domain, from, to, message))
+	buf := bytes.NewBufferString(fmt.Sprintf("From: %s@%s\r\nSubject: SMS sent from \"%s\" to \"%s\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n%s", from, domain, from, to, message))
 	if _, err = buf.WriteTo(wc); err != nil {
 		return http.StatusInternalServerError, fmt.Errorf(fmt.Sprintf("Error writing message body: %s", err))
 	}
