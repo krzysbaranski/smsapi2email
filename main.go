@@ -32,8 +32,8 @@ func main() {
 	log.Printf("Loaded configuration: DOMAIN=%s; PORT=%s; SMTP_HOST=%s; SMTP_PORT=%s;", domain, port, smtpHost, smtpPort)
 
 	http.HandleFunc("/sms.do", func(w http.ResponseWriter, r *http.Request) {
-		from := strings.TrimSpace(r.URL.Query().Get("from"))
-		to := strings.TrimSpace(r.URL.Query().Get("to"))
+		from := strings.ReplaceAll(strings.TrimSpace(r.URL.Query().Get("from")), " ", "_")
+		to := strings.ReplaceAll(strings.TrimSpace(r.URL.Query().Get("to")), " ", "_")
 		message := strings.TrimSpace(r.URL.Query().Get("message"))
 		w.Header().Add("Content-Type", "text/plain")
 
